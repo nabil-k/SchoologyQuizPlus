@@ -1,7 +1,8 @@
 var getAnswers = document.getElementById('getAnswers');
 var selectAnswers = document.getElementById('selectAnswers');
-getAnswers.addEventListener('click', function(){
 
+// Handles the get answers button
+getAnswers.addEventListener('click', function(){
     chrome.tabs.executeScript(null, {
         file: "getCorrectAnswers.js"
       }, function() {
@@ -12,6 +13,7 @@ getAnswers.addEventListener('click', function(){
       });
 })
 
+// Handles the select answers button
 selectAnswers.addEventListener('click', function(){
   chrome.tabs.executeScript(null, {
       file: "selectCorrectAnswers.js"
