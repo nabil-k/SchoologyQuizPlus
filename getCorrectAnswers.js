@@ -22,7 +22,8 @@ function DOMtoString(document_root) {
             question = question.replace("</p>", "");
             answer = answer.replace("<p>", "");
             answer = answer.replace("</p>", "");
-            answer = answer.slice(answer.indexOf(". ") + 1, answer.length);
+            answer = answer.slice(answer.indexOf(".") + 2, answer.length);
+            answer.trim()
 
             correctAnswers.push({
                 "question": question,
