@@ -25,11 +25,7 @@ function DOMtoString(document_root) {
         }
     }
 
-
-
-
     console.log(questionObjs)
-
 
     // Gets the locally stored correct answers (see getCorrectAnswer.js for what that is)
     chrome.storage.local.get(['correctAnswersArr'], function(result) {
@@ -44,12 +40,14 @@ function DOMtoString(document_root) {
                     console.log("matched question: " + answersArr[z].question);
                     for(c = 0; c < questionObjs[i].answers.rows.length; c++){
                         answerOption = questionObjs[i].answers.rows[c].cells[1].querySelector("div").innerHTML;
+                        answerOptionRadioButton = questionObjs[i].answers.rows[c].cells[0].querySelector("div").querySelector("label").querySelector("input");
                         answerOption = answerOption.replace("<p>", "");
                         answerOption = answerOption.replace("</p>", "");
                         console.log(answerOption);
                         console.log(answersArr[z].answer);
                         if(answerOption == answersArr[z].answer){
                             console.log("FOUND IT");
+                            answerOptionRadioButton.checked = true;
                         }
                     }
 
