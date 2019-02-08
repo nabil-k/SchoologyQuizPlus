@@ -1,5 +1,6 @@
 var getAnswers = document.getElementById('getAnswers');
 var selectAnswers = document.getElementById('selectAnswers');
+var getAnswersAlert = document.getElementById('quizAnswersAlert');
 
 // Handles the get answers button
 getAnswers.addEventListener('click', function(){
@@ -7,6 +8,10 @@ getAnswers.addEventListener('click', function(){
         file: "getCorrectAnswers.js"
       }, function() {
         // If you try and inject into an extensions page or the webstore/NTP you'll get an error
+        chrome.storage.local.get(['correctAnswersArr'], function(result) {
+          getAnswersAlert.innerHTML = "Quiz Answers Found: " + result.correctAnswersArr.length;
+        });
+        
         if (chrome.runtime.lastError) {
           message.innerText = 'There was an error injecting script : \n' + chrome.runtime.lastError.message;
         }
@@ -20,7 +25,7 @@ selectAnswers.addEventListener('click', function(){
     }, function() {
       // If you try and inject into an extensions page or the webstore/NTP you'll get an error
       if (chrome.runtime.lastError) {
-        message.innerText = 'There was an error injecting script : \n' + chrome.runtime.lastError.message;
+        console.log( 'There was an error injecting script : \n' + chrome.runtime.lastError.message);
       }
     });
 })

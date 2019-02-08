@@ -10,12 +10,13 @@ function DOMtoString(document_root) {
     if(document_root.getElementsByClassName("question-title").length > 0){
         questionsArr = document_root.getElementsByClassName("question-title");
     }
+    
     if(document_root.getElementsByClassName("form-radios-table sCommonRadiosProcessed").length > 0){
-        console.log(document_root.getElementsByClassName("form-radios-table sCommonRadiosProcessed")[0].rows);
+        // Gets the answer choices from every question
         questionOptionsArr = document_root.getElementsByClassName("form-radios-table sCommonRadiosProcessed");
 
+        // Creates an Obj of all the questions and their answers
         for(i = 0; i < questionsArr.length; i++){
-
             question = questionsArr[i].innerHTML.replace("<p>", "");
             question = question.replace("</p>", "");
             questionObjs.push({
@@ -39,29 +40,23 @@ function DOMtoString(document_root) {
                 if(question == answersArr[z].question){
                     console.log("matched question: " + answersArr[z].question);
                     for(c = 0; c < questionObjs[i].answers.rows.length; c++){
+                        // Answer Choice Content
                         answerOption = questionObjs[i].answers.rows[c].cells[1].querySelector("div").innerHTML;
+                        // Answer Choice Radio Button
                         answerOptionRadioButton = questionObjs[i].answers.rows[c].cells[0].querySelector("div").querySelector("label").querySelector("input");
+                        // Removes any HTML tags that may be present in the Answer choice content
                         answerOption = answerOption.replace("<p>", "");
                         answerOption = answerOption.replace("</p>", "");
-                        console.log(answerOption);
-                        console.log(answersArr[z].answer);
+                        // Selects the correct answers
                         if(answerOption == answersArr[z].answer){
-                            console.log("FOUND IT");
                             answerOptionRadioButton.checked = true;
                         }
                     }
-
-
-  
                 
                 }
             }
         }
     });
-
-
-    
-    
 }
 
 chrome.runtime.sendMessage({
