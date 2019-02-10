@@ -15,19 +15,30 @@ function DOMtoString(document_root) {
     for(i = 0; i < questionsArr.length; i++){
         answer = questionsArr[i].children[1].getElementsByClassName("selected correct");
         if(answer[0] != undefined){
+            // question string edits
             question = questionsArr[i].children[0].innerHTML;
-            answer = answer[0].children[0].children[1].innerHTML;
-            // question and answer string edits
             question = question.replace("<p>", "");
             question = question.replace("</p>", "");
-            answer = answer.replace("<p>", "");
-            answer = answer.replace("</p>", "");
-            answer = answer.slice(answer.indexOf(".") + 2, answer.length);
-            answer.trim()
+            console.log(answer);
+            
+            finalAnswers = []
+            //answer(s) string edits
+            for(z = 0; z < answer.length; z++){
+                finalAnswers.push(answer[z].children[0].children[1].innerHTML);
+                finalAnswers[z] = finalAnswers[z].replace("<p>", "");
+                finalAnswers[z] = finalAnswers[z].replace("</p>", "");
+                finalAnswers[z] = finalAnswers[z].slice(finalAnswers[z].indexOf(".") + 2, finalAnswers[z].length);
+                finalAnswers[z] = finalAnswers[z].trim();
+                console.log(finalAnswers);
+                
+            }
+            //answer(s) string edits
+
+
 
             correctAnswers.push({
                 "question": question,
-                "answer":  answer
+                "answer":  finalAnswers
             })
         }
 
