@@ -48,7 +48,7 @@ function DOMtoString(document_root) {
                         // Removes any HTML tags that may be present in the Answer choice content
                         answerOption = answerOption.replace("<p>", "");
                         answerOption = answerOption.replace("</p>", "");
-                        answerOption = answerOption.replace(" ", "");
+                        //answerOption = answerOption.replace(" ", "");
 
                         if(i==15){
                             console.log(answerOption);
