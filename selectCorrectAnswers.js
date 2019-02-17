@@ -42,13 +42,21 @@ function DOMtoString(document_root) {
                     for(c = 0; c < questionObjs[i].answers.rows.length; c++){
                         // Answer Choice Content
                         answerOption = questionObjs[i].answers.rows[c].cells[1].querySelector("div").innerHTML;
+
                         // Answer Choice Radio Button
                         answerOptionRadioButton = questionObjs[i].answers.rows[c].cells[0].querySelector("div").querySelector("label").querySelector("input");
                         // Removes any HTML tags that may be present in the Answer choice content
                         answerOption = answerOption.replace("<p>", "");
                         answerOption = answerOption.replace("</p>", "");
+                        answerOption = answerOption.replace(" ", "");
+
+                        if(i==15){
+                            console.log(answerOption);
+                            console.log(answersArr[z].answer[0]);
+                        }
+
                         // Selects the correct answers
-                        if(answerOption == answersArr[z].answer){
+                        if(answerOption == answersArr[z].answer[0]){
                             answerOptionRadioButton.checked = true;
                         }
                     }
