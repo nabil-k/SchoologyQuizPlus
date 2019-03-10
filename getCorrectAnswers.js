@@ -4,6 +4,7 @@
 
 var questionsArr = [];
 var correctAnswers = []
+
 function DOMtoString(document_root) {
     
     // Stores all of the quiz questions
@@ -13,32 +14,52 @@ function DOMtoString(document_root) {
     
     // Handles all of the quiz questions that are correct
     for(i = 0; i < questionsArr.length; i++){
-        answer = questionsArr[i].children[1].getElementsByClassName("selected correct");
-        if(answer[0] != undefined){
+        var allAnswerOptions = [];
+
+        // gets only the correct answer(s) from a question
+        correct_answers = questionsArr[i].children[1].getElementsByClassName("selected correct");
+        // gets all of the answers choices from a question
+        allAnswerOptionsHTML = questionsArr[i].children[1].getElementsByClassName("option-span legacy-multiple-choice-question");
+        
+        // Edits the answers from an HTML element to a String
+        for(z = 0; z < allAnswerOptionsHTML.length; z++){
+            
+            allAnswerOptionsHTML[z] = allAnswerOptionsHTML[z].innerHTML;
+
+            allAnswerOptions.push(allAnswerOptionsHTML[z].innerHTML);
+            allAnswerOptions[z] = allAnswerOptions[z].replace("<p>", "");
+            allAnswerOptions[z] = allAnswerOptions[z].replace("</p>", "");
+            allAnswerOptions[z] = allAnswerOptions[z].slice(allAnswerOptions[z].indexOf(".") + 2, allAnswerOptions[z].length);
+            allAnswerOptions[z] = allAnswerOptions[z].trim();
+            
+            console.log(allAnswerOptions[z]);
+
+        }
+
+        if(correct_answers[0] != undefined){
             // question string edits
             question = questionsArr[i].children[0].innerHTML;
             question = question.replace("<p>", "");
             question = question.replace("</p>", "");
-            console.log(answer);
+            console.log(correct_answers);
             
             finalAnswers = []
-            //answer(s) string edits
-            for(z = 0; z < answer.length; z++){
-                finalAnswers.push(answer[z].children[0].children[1].innerHTML);
+            //correct answer(s) string edits
+            for(z = 0; z < correct_answers.length; z++){
+                finalAnswers.push(correct_answers[z].children[0].children[1].innerHTML);
                 finalAnswers[z] = finalAnswers[z].replace("<p>", "");
                 finalAnswers[z] = finalAnswers[z].replace("</p>", "");
                 finalAnswers[z] = finalAnswers[z].slice(finalAnswers[z].indexOf(".") + 2, finalAnswers[z].length);
                 finalAnswers[z] = finalAnswers[z].trim();
-                console.log(finalAnswers);
                 
             }
-            //answer(s) string edits
-
 
 
             correctAnswers.push({
                 "question": question,
-                "answer":  finalAnswers
+                "answers": allAnswerOptions,
+                "correct-answer":  finalAnswers
+
             })
         }
 
