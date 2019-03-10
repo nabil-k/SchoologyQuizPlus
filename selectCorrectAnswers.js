@@ -17,12 +17,13 @@ function DOMtoString(document_root) {
             question = question.replace("<p>", "");
             question = question.replace("</p>", "");
 
-            if(questionsArr[0].getElementsByClassName("radios-wrapper")[0].getElementsByClassName("form-radios").length > 0){
-                questionOptions[0] = questionsArr[i].getElementsByClassName("radios-wrapper")[0].getElementsByClassName("form-radios")[0];
+            if(questionsArr[i].getElementsByClassName("radios-wrapper").length > 0){
+                questionOptions = questionsArr[i].getElementsByClassName("radios-wrapper")[0].children;
             }
-            else if(questionsArr[0].getElementsByClassName("radios-wrapper")[0].getElementsByClassName("form-checkboxes").length > 0){
-                questionOptions[0] = questionsArr[i].getElementsByClassName("radios-wrapper")[0].getElementsByClassName("form-checkboxes")[0];
-            }
+            console.log(questionsArr[i].getElementsByClassName("radios-wrapper")[0]);
+            
+
+           
 
             questionObjs.push({
                     "question": question,
@@ -48,8 +49,29 @@ function DOMtoString(document_root) {
             for(z = 0;  z < answersArr.length; z++){
                 // checks if questions matched
                 if(question == answersArr[z].question){
-                    console.log("matched question: " + answersArr[z].question);
-                    var questionsHTML = questionObjs[i].answers[0].getElementsByClassName("form-radios-table sCommonRadiosProcessed")[0].tBodies[0].rows;
+                    TFQuestion = false;
+
+                    // console.log("matched question: " + answersArr[z].question);
+                    // console.log(questionObjs[i]);
+                    // console.log(questionObjs[i].answers);
+                    var questionsHTML = questionObjs[i].answers[0].getElementsByClassName("form-radios-table sCommonRadiosProcessed")[0];
+                    console.log(questionObjs[i]);
+                    if(questionsHTML == undefined){
+                        if(questionObjs[i].answers[0].getElementsByClassName("form-radio")[0] == null){
+                            questionsHTML =  questionObjs[i].answers[0].getElementsByClassName("form-checkboxes-table sCommonCheckboxesProcessed")[0].tBodies[0].rows;
+                            
+                        }
+                        else{
+                            questionsHTML = questionObjs[i].answers[0].getElementsByClassName("form-radio-title");
+                            console.log("********************");
+                            TFQuestion = true;
+                        }
+                    }else{
+                        questionsHTML = questionObjs[i].answers[0].getElementsByClassName("form-radios-table sCommonRadiosProcessed")[0].tBodies[0].rows;
+                    }
+
+                    console.log(questionsHTML);
+
                     var matchedAnswers = 0;
                     for(c = 0; c < questionsHTML.length; c++){
 
@@ -57,56 +79,72 @@ function DOMtoString(document_root) {
                         var answerOptionRadioButton;
 
                         for(v = 0; v < answersArr[z].answers.length; v++){
-                            // Answer Choice Content
-                            answerOption = questionsHTML[c].cells[1].querySelector("div").innerHTML;
-    
-                            // Answer Choice Radio Button
-                            answerOptionRadioButton = questionsHTML[c].cells[0].querySelector("div").querySelector("label").querySelector("input");
+
+                            // Answer Choice Content and Answer Choice Radio Button
+                            if(TFQuestion){
+
+                                answerOption = questionsHTML[c].innerHTML;
+                                answerOptionRadioButton = questionsHTML[c].parentNode.querySelector("input");
+                                console.log(answerOption);
+                                console.log(answerOptionRadioButton);
+                                
+                            }else{
+                                answerOption = questionsHTML[c].cells[1].querySelector("div").innerHTML;
+                                answerOptionRadioButton = questionsHTML[c].cells[0].querySelector("div").querySelector("label").querySelector("input");
+                            }
                             
                             // Removes any HTML tags that may be present in the Answer choice content
+
                             answerOption = answerOption.replace("<p>", "");
                             answerOption = answerOption.replace("</p>", "");
-                            //answerOption = answerOption.replace(" ", "");
+                            console.log(answerOption);
+            
+                            //answerOption = answerOption.slice(answerOption.indexOf(".") + 1);
+                            console.log(answerOption);
 
-                            // console.log(answerOption);
-                            // console.log(answersArr[z].answers[v]);
-                            // console.log(answerOption == answersArr[z].answers[v]);
 
+                            console.log(answerOption + " = " + answersArr[z].answers[v]);
+                            console.log(answerOption == answersArr[z].answers[v]);
                             if(answerOption == answersArr[z].answers[v]){
+
                                 matchedAnswers++;
                             }
                             
                         }
                         
-                        // if(matchedAnswers == answersArr[z].answers.length){
-                        //     // Selects the correct answers
-                        //     for(a = 0; a < answersArr[z].answer.length; a++){
-                        //         if(answerOption == answersArr[z].answer[a]){
-                        //             answerOptionRadioButton.checked = true;
-                        //         }
-                        //     }
-                        // }
-
-
 
                     }
+
                     console.log(matchedAnswers);
                     if(matchedAnswers == answersArr[z].answers.length){
                         for(c = 0; c < questionsHTML.length; c++){
-                            // Answer Choice Content
-                            answerOption = questionsHTML[c].cells[1].querySelector("div").innerHTML;
-    
-                            // Answer Choice Radio Button
-                            answerOptionRadioButton = questionsHTML[c].cells[0].querySelector("div").querySelector("label").querySelector("input");
-                            
+                            // Answer Choice Content and Answer Choice Radio Button
+                            if(TFQuestion){
+
+                                answerOption = questionsHTML[c].innerHTML;
+                                answerOptionRadioButton = questionsHTML[c].parentNode.querySelector("input");
+                                console.log(answerOption);
+                                console.log(answerOptionRadioButton);
+                                
+                            }else{
+                                answerOption = questionsHTML[c].cells[1].querySelector("div").innerHTML;
+                                answerOptionRadioButton = questionsHTML[c].cells[0].querySelector("div").querySelector("label").querySelector("input");
+                            }
+
                             // Removes any HTML tags that may be present in the Answer choice content
+
                             answerOption = answerOption.replace("<p>", "");
                             answerOption = answerOption.replace("</p>", "");
-                            //answerOption = answerOption.replace(" ", "");
+                            console.log(answerOption);
+            
+                            //answerOption = answerOption.slice(answerOption.indexOf(".") + 1);
+                            
+    
     
                             // Selects the correct answers
                             for(a = 0; a < answersArr[z].answers.length; a++){
-                                if(answerOption == answersArr[z].answers[a]){
+                                if(answerOption == answersArr[z].correct_answers[a]){
+                                    
                                     answerOptionRadioButton.checked = true;
                                 }
                             }
