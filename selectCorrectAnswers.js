@@ -1,5 +1,6 @@
 // @author Rob W <http://stackoverflow.com/users/938089/rob-w>
 // Demo: var serialized_html = DOMtoString(document);
+
 var questionsArr = [];
 var questionObjs = []
 var answersArr = [];
@@ -45,29 +46,76 @@ function DOMtoString(document_root) {
         for(i = 0; i < questionObjs.length; i++){
             question = questionObjs[i].question;
             for(z = 0;  z < answersArr.length; z++){
+                // checks if questions matched
                 if(question == answersArr[z].question){
                     console.log("matched question: " + answersArr[z].question);
-                    console.log(questionObjs[i].answers);
-                    for(c = 0; c < questionObjs[i].answers.rows.length; c++){
-                        // Answer Choice Content
-                        answerOption = questionObjs[i].answers.rows[c].cells[1].querySelector("div").innerHTML;
+                    var questionsHTML = questionObjs[i].answers[0].getElementsByClassName("form-radios-table sCommonRadiosProcessed")[0].tBodies[0].rows;
+                    var matchedAnswers = 0;
+                    for(c = 0; c < questionsHTML.length; c++){
 
-                        // Answer Choice Radio Button
-                         answerOptionRadioButton = questionObjs[i].answers.rows[c].cells[0].querySelector("div").querySelector("label").querySelector("input");
-                        
-                        // Removes any HTML tags that may be present in the Answer choice content
-                        answerOption = answerOption.replace("<p>", "");
-                        answerOption = answerOption.replace("</p>", "");
-                        //answerOption = answerOption.replace(" ", "");
+                        var answerOption;
+                        var answerOptionRadioButton;
 
-                        // Selects the correct answers
-                        for(a = 0; a < answersArr[z].answer.length; a++){
-                            if(answerOption == answersArr[z].answer[a]){
-                                answerOptionRadioButton.checked = true;
+                        for(v = 0; v < answersArr[z].answers.length; v++){
+                            // Answer Choice Content
+                            answerOption = questionsHTML[c].cells[1].querySelector("div").innerHTML;
+    
+                            // Answer Choice Radio Button
+                            answerOptionRadioButton = questionsHTML[c].cells[0].querySelector("div").querySelector("label").querySelector("input");
+                            
+                            // Removes any HTML tags that may be present in the Answer choice content
+                            answerOption = answerOption.replace("<p>", "");
+                            answerOption = answerOption.replace("</p>", "");
+                            //answerOption = answerOption.replace(" ", "");
+
+                            // console.log(answerOption);
+                            // console.log(answersArr[z].answers[v]);
+                            // console.log(answerOption == answersArr[z].answers[v]);
+
+                            if(answerOption == answersArr[z].answers[v]){
+                                matchedAnswers++;
                             }
+                            
                         }
+                        
+                        // if(matchedAnswers == answersArr[z].answers.length){
+                        //     // Selects the correct answers
+                        //     for(a = 0; a < answersArr[z].answer.length; a++){
+                        //         if(answerOption == answersArr[z].answer[a]){
+                        //             answerOptionRadioButton.checked = true;
+                        //         }
+                        //     }
+                        // }
+
+
 
                     }
+                    console.log(matchedAnswers);
+                    if(matchedAnswers == answersArr[z].answers.length){
+                        for(c = 0; c < questionsHTML.length; c++){
+                            // Answer Choice Content
+                            answerOption = questionsHTML[c].cells[1].querySelector("div").innerHTML;
+    
+                            // Answer Choice Radio Button
+                            answerOptionRadioButton = questionsHTML[c].cells[0].querySelector("div").querySelector("label").querySelector("input");
+                            
+                            // Removes any HTML tags that may be present in the Answer choice content
+                            answerOption = answerOption.replace("<p>", "");
+                            answerOption = answerOption.replace("</p>", "");
+                            //answerOption = answerOption.replace(" ", "");
+    
+                            // Selects the correct answers
+                            for(a = 0; a < answersArr[z].answers.length; a++){
+                                if(answerOption == answersArr[z].answers[a]){
+                                    answerOptionRadioButton.checked = true;
+                                }
+                            }
+    
+                        }
+                        
+                    }
+                    
+
                 
                 }
             }
