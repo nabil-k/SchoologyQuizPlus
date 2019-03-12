@@ -9,9 +9,9 @@ body{
 }
 #getAnswers{
     width: 75%;
-    background-color:  #0080FF;
+    background-color:  black;
     color: white;
-    border: 1px solid #0080FF;
+    border: 1px solid black;
     border-radius: 5px;
     display: block;
     margin:auto;
@@ -20,14 +20,14 @@ body{
 }
 #getAnswers:hover{
     cursor: pointer;
-    background-color:  #3299ff;
+    background-color:  #1A1A1A;
 
 }
 #selectAnswers{
     width: 75%;
-    background-color:  #FFA500;
+    background-color:  #DD0000;
     color: white;
-    border: 1px solid #FFA500;
+    border: 1px solid #DD0000;
     border-radius: 5px;
     display: block;
     margin:auto;
@@ -35,7 +35,7 @@ body{
 }
 #selectAnswers:hover{
     cursor: pointer;
-    background-color:  #ffb732;
+    background-color:  #E71A1A;
 
 }
 
