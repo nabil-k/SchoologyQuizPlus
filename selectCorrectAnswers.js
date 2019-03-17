@@ -63,7 +63,6 @@ function DOMtoString(document_root) {
                         }
                         else{
                             questionsHTML = questionObjs[i].answers[0].getElementsByClassName("form-radio-title");
-                            console.log("********************");
                             TFQuestion = true;
                         }
                     }else{
@@ -97,15 +96,14 @@ function DOMtoString(document_root) {
 
                             answerOption = answerOption.replace("<p>", "");
                             answerOption = answerOption.replace("</p>", "");
-                            console.log(answerOption);
             
                             //answerOption = answerOption.slice(answerOption.indexOf(".") + 1);
-                            console.log(answerOption);
+                           
 
 
                             console.log(answerOption + " = " + answersArr[z].answers[v]);
                             console.log(answerOption == answersArr[z].answers[v]);
-                            if(answerOption == answersArr[z].answers[v]){
+                            if(answerOption.trimEnd() == answersArr[z].answers[v]){
 
                                 matchedAnswers++;
                             }

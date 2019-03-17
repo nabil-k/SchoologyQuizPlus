@@ -2,6 +2,7 @@ var getAnswers = document.getElementById('getAnswers');
 var selectAnswers = document.getElementById('selectAnswers');
 var getAnswersAlert = document.getElementById('quizAnswersAlert');
 
+// Gets quiz answers from local storage
 chrome.storage.local.get(['correctAnswersArr'], function(result) {
   console.log(result);
   if(result != null){

@@ -63,6 +63,7 @@ function DOMtoString(document_root) {
                 
                 finalAnswers[z] = finalAnswers[z].replace("<p>", "");
                 finalAnswers[z] = finalAnswers[z].replace("</p>", "");
+                finalAnswers[z] = finalAnswers[z].trimEnd();
                 console.log(finalAnswers[z]);
 
                 finalAnswers[z] = finalAnswers[z].slice(finalAnswers[z].indexOf(".") + 1);
