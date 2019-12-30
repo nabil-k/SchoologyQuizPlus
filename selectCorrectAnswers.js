@@ -1,5 +1,6 @@
 // @author Rob W <http://stackoverflow.com/users/938089/rob-w>
 // Demo: var serialized_html = DOMtoString(document);
+// Rest of the code was built off of his demo
 
 var questionsArr = [];
 var questionObjs = []
@@ -20,17 +21,13 @@ function DOMtoString(document_root) {
             if(questionsArr[i].getElementsByClassName("radios-wrapper").length > 0){
                 questionOptions = questionsArr[i].getElementsByClassName("radios-wrapper")[0].children;
             }
-            console.log(questionsArr[i].getElementsByClassName("radios-wrapper")[0]);
-            
-
-           
+            //console.log(questionsArr[i].getElementsByClassName("radios-wrapper")[0]);
 
             questionObjs.push({
                     "question": question,
                     "answers": questionOptions
             })
 
-            console.log("DONE: " + question)
         }
         
     }
@@ -51,11 +48,8 @@ function DOMtoString(document_root) {
                 if(question == answersArr[z].question){
                     TFQuestion = false;
 
-                    // console.log("matched question: " + answersArr[z].question);
-                    // console.log(questionObjs[i]);
-                    // console.log(questionObjs[i].answers);
-                    var questionsHTML = questionObjs[i].answers[0].getElementsByClassName("form-radios-table sCommonRadiosProcessed")[0];
-                    console.log(questionObjs[i]);
+                    if(questionObjs[i].answers[0] != null){
+                        var questionsHTML = questionObjs[i].answers[0].getElementsByClassName("form-radios-table sCommonRadiosProcessed")[0];
                     if(questionsHTML == undefined){
                         if(questionObjs[i].answers[0].getElementsByClassName("form-radio")[0] == null){
                             questionsHTML =  questionObjs[i].answers[0].getElementsByClassName("form-checkboxes-table sCommonCheckboxesProcessed")[0].tBodies[0].rows;
@@ -69,7 +63,6 @@ function DOMtoString(document_root) {
                         questionsHTML = questionObjs[i].answers[0].getElementsByClassName("form-radios-table sCommonRadiosProcessed")[0].tBodies[0].rows;
                     }
 
-                    console.log(questionsHTML);
 
                     var matchedAnswers = 0;
                     for(c = 0; c < questionsHTML.length; c++){
@@ -84,8 +77,8 @@ function DOMtoString(document_root) {
 
                                 answerOption = questionsHTML[c].innerHTML;
                                 answerOptionRadioButton = questionsHTML[c].parentNode.querySelector("input");
-                                console.log(answerOption);
-                                console.log(answerOptionRadioButton);
+                                //console.log(answerOption);
+                                //console.log(answerOptionRadioButton);
                                 
                             }else{
                                 answerOption = questionsHTML[c].cells[1].querySelector("div").innerHTML;
@@ -94,35 +87,31 @@ function DOMtoString(document_root) {
                             
                             // Removes any HTML tags that may be present in the Answer choice content
 
+                            // answerOption = answerOption.replace("<p>", "");
+                            // answerOption = answerOption.replace("</p>", "");
+
                             answerOption = answerOption.replace("<p>", "");
                             answerOption = answerOption.replace("</p>", "");
-            
-                            //answerOption = answerOption.slice(answerOption.indexOf(".") + 1);
-                           
-
-
-                            console.log(answerOption + " = " + answersArr[z].answers[v]);
-                            console.log(answerOption == answersArr[z].answers[v]);
-                            if(answerOption.trimEnd() == answersArr[z].answers[v]){
-
-                                matchedAnswers++;
-                            }
+                            answerOption = answerOption.replace(/ /g, "");
                             
-                        }
-                        
+                            console.log("1:",answerOption, "2:",answersArr[z].answers[v], "3:", answerOption == answersArr[z].answers[v])
 
+                            if(answerOption == answersArr[z].answers[v]){
+                                matchedAnswers++;
+                            }   
+                        }
                     }
 
-                    console.log(matchedAnswers);
                     if(matchedAnswers == answersArr[z].answers.length){
+                        
                         for(c = 0; c < questionsHTML.length; c++){
                             // Answer Choice Content and Answer Choice Radio Button
                             if(TFQuestion){
 
                                 answerOption = questionsHTML[c].innerHTML;
                                 answerOptionRadioButton = questionsHTML[c].parentNode.querySelector("input");
-                                console.log(answerOption);
-                                console.log(answerOptionRadioButton);
+                                //console.log(answerOption);
+                                //console.log(answerOptionRadioButton);
                                 
                             }else{
                                 answerOption = questionsHTML[c].cells[1].querySelector("div").innerHTML;
@@ -131,9 +120,12 @@ function DOMtoString(document_root) {
 
                             // Removes any HTML tags that may be present in the Answer choice content
 
+                            // answerOption = answerOption.replace("<p>", "");
+                            // answerOption = answerOption.replace("</p>", "");
                             answerOption = answerOption.replace("<p>", "");
                             answerOption = answerOption.replace("</p>", "");
-                            console.log(answerOption);
+                            answerOption = answerOption.replace(/ /g, "");
+                            //console.log(answerOption);
             
                             //answerOption = answerOption.slice(answerOption.indexOf(".") + 1);
                             
@@ -142,17 +134,13 @@ function DOMtoString(document_root) {
                             // Selects the correct answers
                             for(a = 0; a < answersArr[z].answers.length; a++){
                                 if(answerOption == answersArr[z].correct_answers[a]){
-                                    
                                     answerOptionRadioButton.checked = true;
                                 }
                             }
     
                         }
-                        
-                    }
-                    
-
-                
+                    }     
+                    }  
                 }
             }
         }

@@ -11,6 +11,9 @@ chrome.storage.local.get(['correctAnswersArr'], function(result) {
   
 });
 
+// Sends user to survey after uninstallation
+chrome.runtime.setUninstallURL("https://docs.google.com/forms/d/e/1FAIpQLSeOgAKzFxzwXHe-GG-QQjdY3uxR_sw-k34yMuJkgJwupATLwQ/viewform?usp=sf_link");
+
 // Handles the get answers button
 getAnswers.addEventListener('click', function(){
     chrome.tabs.executeScript(null, {
